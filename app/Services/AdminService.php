@@ -88,8 +88,8 @@ class AdminService
     {
         $ext = isset($userInfo['ext']) ? $userInfo['ext'] : [];
         unset($userInfo['ext']);
-        $ttl = $this->userService->getSessExpire($userId);
-        $ttl > 0 && $this->userService->saveSeesAndUserInfo($userId, $userInfo, $ext, $ttl);
+        //$ttl = $this->userService->getSessExpire($userId);
+        $this->userService->saveSeesAndUserInfo($userId, $userInfo, $ext, null);
     }
 
 
