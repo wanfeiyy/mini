@@ -46,7 +46,7 @@ class AuthController extends Controller
         $avatar = (string)$req->input('avatar');
         $wx = $this->miniWechatService->getSessionKey($jsCode);
         $thirdParty = [
-            'openId'      => $wx['openid'],
+            'openId'      => $wx['open_id'],
             'sessionKey'  => $wx['session_key'],
             'name'        => $nickName,
             'avatar'      => $avatar,
