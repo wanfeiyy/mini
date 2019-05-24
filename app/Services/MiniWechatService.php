@@ -24,7 +24,7 @@ class MiniWechatService
         try {
            $ret = $this->app->auth->session($jsCode);
            //return ['session_key' => 'xxxxxx', 'openid' => mt_rand(1,10000)];
-           if (isset($ret['errcode']) && $ret['errcode'] === 0) {
+           if (! isset($ret['errcode']) || $ret['errcode'] != 0) {
                return $ret;
            } else {
                throw new \Exception('auth.code2Session error:' . json_encode($ret));
