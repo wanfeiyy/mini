@@ -1,59 +1,164 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+### 接口文档说明
+1. 返回参数说明
+```json
+"errcode": 0, // 为0是代表成功, 其余都为失败
+"errmsg": "success",
+"data": {}
+```
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+2.登录状态说明
+```json
+"errcode": 3, // 为3表示登录过期,需重新登录
+"errmsg": "success",
+"data": {}
+```
 
-## About Laravel
+```json
+"errcode": 7, // 为7表示管理员登录过期,需重新登录
+"errmsg": "success",
+"data": {}
+```
+3.全局接口说明
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+所有请求接口都应加上下面登录接口返回的sess值 `sess=xxxxx`
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+###1. 登录
+ - 请求地址: api/login
+ - 请求方式: POST
+ - 请求参数
+ 
+| 参数 | 是否必填 | 描述 | 类型 | 值 |
+| --------| ----- |-------| -------- |
+| code| 是 | 微信code | string | 1234 |
+| nickname |是 |昵称 | string | xxx|
+| avatar |否 |头像 | string | http://sss.com |
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
+#### 响应结果
+```json
+{
+    "errcode": 0,
+    "errmsg": "success",
+    "data": {
+        "sess": "928d2562c5d7d0dafa30535c6d0ec68e", // 登录用
+        "userInfo": {
+            "name": "收到货好多事",
+            "avatar": "",
+            "updatedAt": "1558439613",
+            "createdAt": "1558439613",
+            "id": 2
+        }
+    }
+}
+```
 
-## Learning Laravel
+###2. 超管登录
+ - 请求地址: api/admin/login
+ - 请求方式: POST
+ - 请求参数
+ 
+| 参数 | 是否必填 | 描述 | 类型 | 值 |
+| --------| ----- |-------| -------- |
+| username |是 |用户名 | string | xxx|
+| password |是 |密码 | string | http://sss.com |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+#### 响应结果
+```json
+{
+    "errcode": 0,
+    "errmsg": "success",
+    "data": {
+        "id": 1,
+        "name": "收到货好多事",
+        "avatar": "",
+        "createdAt": "1558276381",
+        "updatedAt": "1558439467",
+        "role": 2,
+        "origin": 0
+    }
+}
+```
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+###3. 申请用户列表
+ - 请求地址: api/admin/user/list
+ - 请求方式: get
+ - 请求参数: 
+ 
+| 参数 | 是否必填 | 描述 | 类型 | 值 |
+| --------| ----- |-------| -------- |
+| start |是 |起始页 | int | 0|
+| limit |是 |每页条数 | int | 20 |
 
-## Laravel Sponsors
+#### 响应结果
+```json
+{
+    "errcode": 0,
+    "errmsg": "success",
+    "data": {
+        "list": [
+            {
+                "name": "收到货好多事",
+                "avatar": "",
+                "id": 2,
+                "role": 0,
+                "createdAt": "1558439613"
+            },
+            {
+                "name": "收到货好多事",
+                "avatar": "",
+                "id": 1,
+                "role": 2,
+                "createdAt": "1558276381"
+            }
+        ],
+        "more": 0, // 1 表示还有下页
+        "start": 1 // 获取下页传的start值
+    }
+}
+```
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
+###4. 更新用户权限
+ - 请求地址: api/admin/user/role
+ - 请求方式: post
+ - 请求参数: 
+ 
+| 参数 | 是否必填 | 描述 | 类型 | 值 |
+| --------| ----- |-------| -------- |
+| userId |是 |用户id | int | 0|
+| role |是 |用户角色(0 普通人员 1 调度人员 2 超管) | int | 1 |
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Pulse Storm](http://www.pulsestorm.net/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
+#### 响应结果
+```json
+{
+    "errcode": 0,
+    "errmsg": "success",
+    "data": {
+    }
+}
+```
 
-## Contributing
+###5. 获取用户信息
+ - 请求地址: api/user
+ - 请求方式: get
+ - 请求参数: 
+ 
+| 参数 | 是否必填 | 描述 | 类型 | 值 |
+| --------| ----- |-------| -------- |
+| sess |是 |登录参数 | string | xxx |
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+#### 响应结果
+```json
+{
+    "errcode": 0,
+    "errmsg": "success",
+    "data": {
+        "name": "收到货好多事",
+        "avatar": "",
+        "role": 0,
+        "updatedAt": "1558445082",
+        "createdAt": "1558445082",
+        "id": 11
+    }
+}
+```
+ 
+ 

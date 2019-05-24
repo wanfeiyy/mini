@@ -98,5 +98,9 @@ return [
             'expire' => 60,
         ],
     ],
+    
+    'admin' => [
+        ['pwd' => '123456', 'username' => 'admin'],
+    ]
 
 ];
