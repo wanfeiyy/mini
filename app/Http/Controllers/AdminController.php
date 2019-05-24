@@ -28,8 +28,8 @@ class AdminController extends Controller
     {
         $data = $this->adminService->getUserList(
             ['role' => ['>=', 0]],
-            $request->input('start', 0),
-            $request->input('limit', 20)
+            intval($request->input('start', 0)),
+            intval($request->input('limit', 20))
         );
 
         return Response::success($data);
