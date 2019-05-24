@@ -103,7 +103,7 @@ class AdminService
     {
         if (! $this->passportService->getIsAdmin()) {
             throw new BusinessException('请先登录', Response::UNAUTHORIZED);
-        } elseif (! in_array($role, [RoleEnum::ROLE_GENERAL, RoleEnum::ROLE_CHECK])) {
+        } elseif (! in_array($role, [RoleEnum::ROLE_GENERAL, RoleEnum::ROLE_CHECK, RoleEnum::ROLE_SCHEDULING])) {
             throw new ServiceException('更新权限角色错误');
         }
 

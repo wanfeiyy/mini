@@ -124,7 +124,7 @@
 | 参数 | 是否必填 | 描述 | 类型 | 值 |
 | --------| ----- |-------| -------- |
 | userId |是 |用户id | int | 0|
-| role |是 |用户角色(0 普通人员 1 调度人员 2 超管) | int | 1 |
+| role |是 |用户角色(0 普通人员 1 审核人员 2 超管 3调度人员 ) | int | 1 |
 
 #### 响应结果
 ```json
@@ -161,4 +161,195 @@
 }
 ```
  
- 
+ ###6. 创建调度单
+  - 请求地址: api/scheduling/create
+  - 请求方式: post
+  - 请求参数: 
+  
+| 参数 | 是否必填 | 描述 | 类型 | 值 |
+| --------| ----- |-------| -------- |  
+| department |是 | | string | xxx|
+| name |是 | | string | xxx|
+| num |是 | | int | xxx|
+| phone |是 | | string | xxx|
+| address |是 | | string | xxx|
+| route |是 | | string | xxx|
+| startTime |是 | | string | xxx|
+| days |是 | | int | xxx|
+| securityName |否 | | string | xxx|
+| taskDesc |是 | | string | xxx|
+
+#### 响应结果
+```json
+{
+    "errcode": 0,
+    "errmsg": "success",
+    "data": {
+        "department": "发的发的",
+        "name": "方法",
+        "num": "3",
+        "phone": "122131231231",
+        "address": "杭州",
+        "route": "西湖\b",
+        "startTime": "2018-11-29",
+        "days": "3",
+        "securityName": "对对对",
+        "taskDesc": "dddd",
+        "userId": 10,
+        "updatedAt": "1558681230",
+        "createdAt": "1558681230",
+        "id": 2
+    }
+}
+
+```
+
+ ###7. 调度单详情
+  - 请求地址: api/scheduling/detail
+  - 请求方式: get
+  - 请求参数:
+  
+| 参数 | 是否必填 | 描述 | 类型 | 值 |
+| --------| ----- |-------| -------- |  
+| id |是 | | int | 1|
+
+#### 响应结果
+```json
+{
+    "errcode": 0,
+    "errmsg": "success",
+    "data": {
+        "id": 2,
+        "department": "发的发的",
+        "name": "方法",
+        "num": 3,
+        "phone": "122131231231",
+        "address": "杭州",
+        "route": "西湖\b",
+        "startTime": "2018-11-29",
+        "securityName": "对对对",
+        "taskDesc": "dddd",
+        "checkInfo": {
+            "safetyAccounting": "对对对",
+            "opinion": "范芳芳",
+            "name": "收到货好多事",
+            "state": 1
+        },
+        "schedulingInfo": {
+            "driver": "范芳芳",
+            "numberPlates": "方法",
+            "remarks": "33333",
+            "name": "收到货好多事",
+            "state": 1
+        },
+        "createdAt": "1558681230",
+        "updatedAt": "1558683966",
+        "userId": 10,
+        "status": 4,
+        "days": 3
+    }
+}
+
+```
+
+ ###7. 调度单列表
+  - 请求地址: api/scheduling/list
+  - 请求方式: get
+  - 请求参数:
+  
+| 参数 | 是否必填 | 描述 | 类型 | 值 |
+| --------| ----- |-------| -------- |  
+| start |是 | | int | 0|
+| limit |是 | | int | 20|
+
+#### 响应结果
+```json
+{
+    "errcode": 0,
+    "errmsg": "success",
+    "data": {
+        "list": [
+            {
+                "id": 2,
+                "department": "发的发的",
+                "name": "方法",
+                "num": 3,
+                "phone": "122131231231",
+                "address": "杭州",
+                "route": "西湖\b",
+                "startTime": "2018-11-29",
+                "securityName": "对对对",
+                "taskDesc": "dddd",
+                "checkInfo": {
+                    "safetyAccounting": "对对对",
+                    "opinion": "范芳芳",
+                    "name": "收到货好多事"
+                },
+                "schedulingInfo": {
+                    "driver": "范芳芳",
+                    "numberPlates": "方法",
+                    "remarks": "33333",
+                    "name": "收到货好多事"
+                },
+                "createdAt": "1558681230",
+                "updatedAt": "1558683966",
+                "userId": 10,
+                "status": 4,
+                "days": 3
+            },
+            {
+                "id": 1,
+                "department": "发的发的",
+                "name": "方法",
+                "num": 3,
+                "phone": "122131231231",
+                "address": "杭州",
+                "route": "西湖\b",
+                "startTime": "2018-11-29",
+                "securityName": "对对对",
+                "taskDesc": "dddd",
+                "checkInfo": {},
+                "schedulingInfo": {},
+                "createdAt": "1558681203",
+                "updatedAt": "1558681203",
+                "userId": 10,
+                "status": 0,
+                "days": 3
+            }
+        ],
+        "more": 0,
+        "start": 1
+    }
+}
+
+```
+
+ ###8. 审核调度单
+  - 请求地址: api/scheduling/check
+  - 请求方式: get
+  - 请求参数:
+  
+| 参数 | 是否必填 | 描述 | 类型 | 值 |
+| --------| ----- |-------| -------- |  
+| state |是 | | int | 1 审核成功 0 审核失败|
+| id |是 | | int | 1 |
+| safetyAccounting |是 | | string | 1|
+| opinion |是 | | string | sss|
+
+#### 响应结果
+```json
+{"errcode":0,"errmsg":"success","data":{}}
+```
+
+ ###8. 调度调度单
+  - 请求地址: api/scheduling/scheduling
+  - 请求方式: post
+  - 请求参数:
+  
+| 参数 | 是否必填 | 描述 | 类型 | 值 |
+| --------| ----- |-------| -------- |  
+| state |是 | | int | 1 审核成功 0 审核失败|
+| id |是 | | int | 1 |
+| driver |是 | | string | 1|
+| numberPlates |是 | | string | sss|
+| remarks |是 | | string | sss|
