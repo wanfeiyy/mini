@@ -43,8 +43,8 @@ class AdminController extends Controller
     public function updateRole(Request $request)
     {
         $ret = $this->adminService->updateUserRole(
-            $request->input('userId'),
-            $request->input('role')
+            intval($request->input('userId')),
+            intval($request->input('role'))
         );
 
         return Response::success($ret);

@@ -117,7 +117,7 @@ class UserService
      */
     private function getSessTTL($ttl = null) :int
     {
-        return $ttl ? : $this->sessTtl * 86400 / 60;
+        return $ttl ? : intval($this->sessTtl * 86400 / 60);
     }
 
 
