@@ -112,11 +112,11 @@ class AdminService
             throw new ServiceException('用户不存在');
         }
 
-        if ($user['role'] == $role) {
+        if (isset($user['role']) && $user['role'] == $role) {
             return null;
         } elseif ($this->userDao->updateById($userId, ['role' => $role])) {
             $user['role'] = $role;
-            $this->updateUserSess($user->toArray(), $userId);
+            $this->updateUserSess($user, $userId);
             return null;
         }
 
