@@ -14,6 +14,7 @@ use App\Services\AdminService;
 use App\Services\MiniWechatService;
 use App\Services\PassportService;
 use App\Services\UserService;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -41,6 +42,7 @@ class AuthController extends Controller
 
     public function loginByWxApp(AuthRequest $req)
     {
+        Log::debug('login wx app par', $req->all());
         $jsCode = $req->input('code');
         $nickName = (string)$req->input('nickname');
         $avatar = (string)$req->input('avatar');
