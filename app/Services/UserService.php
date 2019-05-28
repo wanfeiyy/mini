@@ -43,7 +43,7 @@ class UserService
         $attributes = [
             'name' => $loginParams['name'],
             'avatar' => $loginParams['avatar'],
-            'role' => 0
+            //'role' => 0
         ];
         $ret = $this->userDao->updateOrCreate(
             [
@@ -53,7 +53,7 @@ class UserService
         );
 
         if ($ret) {
-            $data = $this->key2CamelCase($ret);
+            $data = $this->key2CamelCase($this->getUserById($ret->id));
             $sess = $this->saveSeesAndUserInfo(
                 $ret->id,
                 $data,
