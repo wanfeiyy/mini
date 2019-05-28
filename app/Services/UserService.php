@@ -76,7 +76,7 @@ class UserService
      * @param int $userId
      * @return string
      */
-    protected function generateSess(int $userId) :string
+    public function generateSess($userId) :string
     {
         return md5($userId . '_' . str_random(32));
     }

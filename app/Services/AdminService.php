@@ -14,6 +14,8 @@ use App\Exceptions\Businesses\BusinessException;
 use App\Exceptions\Services\ServiceException;
 use App\Http\Response;
 use App\Traits\CaseConverter;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class AdminService
 {
@@ -45,22 +47,31 @@ class AdminService
         $config = config('auth.admin');
         foreach ($config as $v) {
             if ($v['pwd'] == $pwd && $v['username'] == $username) {
-                $userInfo = $this->passportService->getUserInfo();
-                if (! isset($userInfo['role']) || $userInfo['role'] != RoleEnum::ROLE_ADMIN) {
-                    if ($this->userDao->updateById($userId, ['role' => RoleEnum::ROLE_ADMIN])) {
-                        $userInfo['role'] = RoleEnum::ROLE_ADMIN;
-                        $this->updateUserSess($userInfo, $userId);
-                    };
-                }
-
-                unset($userInfo['ext']);
-                return $userInfo;
+                $adminSess = $this->userService->generateSess('admin_' . $userId);
+                $this->saveAdminSess($adminSess);
+                return ['adminSess' => $adminSess];
             }
         }
 
         Response::throwError(Response::ACCOUNT_ERROR);
     }
 
+
+
+    public function saveAdminSess($sess)
+    {
+         Cache::put($sess, 1, 3600 * 5);
+    }
+
+    /**
+     * @param $sess
+     *
+     * @return bool
+     */
+    public function checkSess($sess)
+    {
+        return Cache::has($sess);
+    }
 
     /**
      * @param array $filter
@@ -101,9 +112,8 @@ class AdminService
      */
     public function updateUserRole(int $userId, int $role)
     {
-        if (! $this->passportService->getIsAdmin()) {
-            throw new BusinessException('请先登录', Response::UNAUTHORIZED);
-        } elseif (! in_array($role, [RoleEnum::ROLE_GENERAL, RoleEnum::ROLE_CHECK, RoleEnum::ROLE_SCHEDULING])) {
+        Log::debug('role is', [$role]);
+        if (! in_array($role, [RoleEnum::ROLE_GENERAL, RoleEnum::ROLE_CHECK, RoleEnum::ROLE_SCHEDULING])) {
             throw new ServiceException('更新权限角色错误');
         }
 
