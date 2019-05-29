@@ -57,8 +57,8 @@ class SchedulingController extends Controller
             $this->service->check(
                 $request->input('id'),
                 $request->input('state'),
-                $request->input('safetyAccounting'),
-                $request->input('opinion'),
+                $request->input('safetyAccounting', ''),
+                $request->input('opinion', ''),
                 [
                     'name' => $this->getUserName(),
                     'role' => $this->getUserRole(),
@@ -75,8 +75,8 @@ class SchedulingController extends Controller
             $this->service->scheduling(
                 $request->input('id'),
                 $request->input('state'),
-                $request->input('driver'),
-                $request->input('numberPlates'),
+                $request->input('driver', ''),
+                $request->input('numberPlates', ''),
                 $request->input('remarks', ''),
                 [
                     'name' => $this->getUserName(),

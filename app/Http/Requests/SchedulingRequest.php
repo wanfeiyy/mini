@@ -28,14 +28,14 @@ class SchedulingRequest extends Request
         ],
         'check' => [
             'id' => 'required|int',
-            'safetyAccounting' => 'required|string',
-            'opinion' => 'required|string',
+            'safetyAccounting' => 'string',
+            'opinion' => 'string',
             'state' => 'required|in:1,0'
         ],
         'scheduling' => [
             'id' => 'required|int',
-            'driver' => 'required|string',
-            'numberPlates' => 'required|string',
+            'driver' => 'string',
+            'numberPlates' => 'string',
             'remarks' => 'string',
             'state' => 'required|in:1,0'
         ]
