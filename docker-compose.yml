@@ -1,0 +1,64 @@
+version: "3.3"
+services:
+  redis:
+      image: daocloud.io/zhanghui_medlinker/redis
+      container_name: redis
+      ports:
+          - "6379:6379"
+      volumes:
+          - ./volumes/redis:/data
+      environment:
+          TZ: Asia/Chongqing
+      restart: always
+
+  mysql:
+      image: daocloud.io/zhanghui_medlinker/mysql
+      container_name: mysql
+      volumes:
+          - ./volumes/mysql:/var/lib/mysql
+      environment:
+          MYSQL_ROOT_PASSWORD: root
+          TZ: Asia/Chongqing
+      ports:
+          - "3306:3306"
+      restart: always
+        
+  php7:
+    image: daocloud.io/zhanghui_medlinker/php
+    container_name: php7
+    depends_on:
+      - mysql
+      - redis
+    volumes:
+      - ./volumes/composer:/root/.composer
+      - ./workdir:/var/www
+      #- ./volumes/php/fpm/opcache.ini:/etc/php/7.2/fpm/conf.d/opcache.ini
+      #- ./volumes/php/fpm/www.conf:/etc/php/5.6/fpm/pool.d/www.con
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    environment:
+      TZ: Asia/Chongqing
+      REDIS_PORT: 6379
+    restart: always
+    
+
+  nginx:
+      image: daocloud.io/zhanghui_medlinker/nginx
+      container_name: nginx
+      links:
+          - php
+      ports:
+          - "80:80"
+          - "443:443"
+      volumes:
+          - ./workdir:/var/www
+          - ./volumes/nginx/sites:/etc/nginx/sites
+          - ./volumes/nginx/conf.d:/etc/nginx/conf.d
+          - ./volumes/nginx/includes:/etc/nginx/includes
+          - ./volumes/nginx/logs:/var/log/nginx
+          - ./volumes/nginx/nginx.conf:/etc/nginx/nginx.conf
+      environment:
+          TZ: Asia/Chongqing
+      restart: always

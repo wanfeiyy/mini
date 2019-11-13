@@ -1,0 +1,15 @@
+server {
+    server_name  app-panel.med2.docker;
+    root         /var/www/med2/med2-app-panel;
+
+    location /assets {
+        try_files $uri 404;
+    }
+
+    location / {
+        fastcgi_pass   php:9000;
+        fastcgi_index  http.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root/http.php;
+        include        fastcgi_params;
+    }
+}

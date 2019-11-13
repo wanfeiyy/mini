@@ -1,0 +1,8 @@
+server {
+    server_name  oop.med.docker;
+    root         /var/www/med-oop/public;
+
+    index index.html index.php;
+
+    include includes/php_index;
+}

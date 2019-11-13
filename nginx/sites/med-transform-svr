@@ -1,0 +1,8 @@
+server {
+    server_name  svr.transform.med.docker;
+    root         /var/www/med-transform-svr/public;
+
+    index index.html index.php;
+
+    include includes/php_index;
+}

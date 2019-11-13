@@ -1,0 +1,12 @@
+server {
+    listen       9330;
+    server_name  localhost;
+    root         /var/www/med/med-svr-spread;
+
+    location / {
+        fastcgi_pass   php:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root/index.php;
+        include        fastcgi_params;
+    }
+}

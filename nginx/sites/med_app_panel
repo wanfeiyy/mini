@@ -1,0 +1,20 @@
+server {
+    server_name  panel.med.docker;
+    root         /var/www/med/med-app-panel;
+
+    location /assets {
+        try_files $uri @missing_assets;
+    }
+
+    location @missing_assets {
+        root /;
+        try_files /var/www/med/panel-js/$uri 404;
+    }
+
+    location / {
+        fastcgi_pass   php:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root/index.php;
+        include        fastcgi_params;
+    }
+}

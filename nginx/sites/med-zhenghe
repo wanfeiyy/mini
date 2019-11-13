@@ -1,0 +1,8 @@
+server {
+    server_name  zhenghe.med.docker;
+    root         /var/www/zhenghe/public;
+
+    index index.html index.php;
+
+    include includes/php_index;
+}

@@ -1,0 +1,12 @@
+server {
+    listen       8020;
+    server_name  localhost;
+    root         /var/www/med2/med2-service;
+
+    location / {
+        fastcgi_pass   php:9000;
+        fastcgi_index  httpRPC.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root/httpRPC.php;
+        include        fastcgi_params;
+    }
+}

@@ -1,0 +1,8 @@
+server {
+    server_name  pay-old.med.docker;
+    root         /var/www/med-pay/public;
+
+    index index.html index.php;
+
+    include includes/php_index;
+}

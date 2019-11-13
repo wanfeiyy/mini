@@ -1,0 +1,8 @@
+server {
+    server_name  business.med.docker;
+    root         /var/www/med-cloud-pharmacy/public;
+
+    index index.html index.php;
+
+    include includes/php_index;
+}

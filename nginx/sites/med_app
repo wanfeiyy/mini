@@ -1,0 +1,15 @@
+server {
+    server_name  app.med.docker;
+    root         /var/www/med/med-app;
+
+    location /assets {
+            try_files $uri 404;
+     }
+
+    location / {
+        fastcgi_pass   php:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root/index.php;
+        include        fastcgi_params;
+    }
+}

@@ -1,0 +1,16 @@
+server {
+    server_name  ember.local;
+    root         /var/htdocs/ember/public;
+
+    index index.html index.php;
+
+    include includes/php_index;
+}
+
+server {
+    server_name  mall.local;
+    root         /var/htdocs/mall-frontend;
+
+    index index.html;
+}
+

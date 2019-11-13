@@ -1,0 +1,8 @@
+server {
+    server_name  d2dph.med.docker;
+    root         /var/www/med-d2d-ph/public;
+
+    index index.html index.php;
+
+    include includes/php_index;
+}

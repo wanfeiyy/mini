@@ -1,0 +1,11 @@
+server {
+    server_name  svr-lumen.med3.docker;
+    root         /var/www/med3/med3-svr-lumen/public;
+
+    location / {
+        fastcgi_pass   php:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root/index.php;
+        include        fastcgi_params;
+    }
+}

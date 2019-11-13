@@ -1,0 +1,8 @@
+server {
+    server_name  panel.med.docker;
+    root         /var/www/med3-app-panel/public;
+
+    index index.html index.php;
+
+    include includes/php_index;
+}

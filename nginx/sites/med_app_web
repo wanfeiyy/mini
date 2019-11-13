@@ -1,0 +1,16 @@
+server {
+    listen       80;
+    server_name  web.med.docker;
+    root         /var/www/med/med-app-web;
+
+    location /assets {
+        try_files $uri 404;
+    }
+
+    location / {
+        fastcgi_pass   php:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root/index.php;
+        include        fastcgi_params;
+    }
+}
